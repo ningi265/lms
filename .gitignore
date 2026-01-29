@@ -1,0 +1,74 @@
+# Dependency directories
+/vendor/
+/node_modules/
+
+# Environment files
+.env
+.env.local
+.env.production.local
+.env.development.local
+
+# Log files
+*.log
+error_log
+storage/logs/
+
+# Operating system files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+
+# Composer
+composer.phar
+composer.lock
+
+# NPM
+package-lock.json
+yarn.lock
+
+# Cache
+.cache/
+
+# Temporary files
+*.tmp
+*.temp
+/tmp/
+
+# Uploads (user-generated content - don't commit these)
+/uploads/
+/temp/
+
+# Database/config files with sensitive info
+/config/database.php
+/config/config.php
+/config/app.php
+
+# Session files
+/sessions/
+session.save_path
+
+# XAMPP specific
+/xampp/
+/phpmyadmin/
+
+# Compiled files
+*.class
+*.exe
+*.dll
+*.so
+*.cache
+
+# Development files
+docker-compose.override.yml
+
+# System files
+*.sys
+*.dmp
