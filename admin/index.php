@@ -73,7 +73,7 @@
             <div id="login" class="animate form">
                 <section class="login_content">
                     <form action="" method="post">
-                        <h1>Login Form</h1>
+                        <h1>Login</h1>
                         <div>
                             <input type="text" class="form-control" name="username" placeholder="Username" autofocus='autofocus' required />
                         </div>
