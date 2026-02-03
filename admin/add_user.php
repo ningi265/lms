@@ -3,27 +3,82 @@ include ('header.php');
 include ('include/dbcon.php');
 ?>
 
+<!-- ARROW KEY FIX - Add this early in the page -->
+<script>
+// Fix for arrow key navigation in form inputs
+document.addEventListener('DOMContentLoaded', function() {
+    // Function to fix arrow keys in all form elements
+    function fixArrowKeys() {
+        // Get all form elements
+        var formElements = document.querySelectorAll('input, select, textarea');
+        
+        for (var i = 0; i < formElements.length; i++) {
+            // Remove any existing keydown listeners that might block arrows
+            var element = formElements[i];
+            var newElement = element.cloneNode(true);
+            element.parentNode.replaceChild(newElement, element);
+            
+            // Add proper event listener
+            newElement.addEventListener('keydown', function(e) {
+                // Allow arrow keys (left: 37, up: 38, right: 39, down: 40)
+                if (e.keyCode >= 37 && e.keyCode <= 40) {
+                    e.stopPropagation();
+                    e.stopImmediatePropagation();
+                    return true;
+                }
+            }, true); // Use capture phase to intercept early
+        }
+        
+        // Also prevent event bubbling from Bootstrap collapse
+        var form = document.querySelector('form');
+        if (form) {
+            form.addEventListener('keydown', function(e) {
+                if (e.keyCode >= 37 && e.keyCode <= 40) {
+                    e.stopPropagation();
+                }
+            }, true);
+        }
+    }
+    
+    // Fix arrow keys immediately
+    fixArrowKeys();
+    
+    // Also fix when the collapse panel is toggled
+    var collapseLinks = document.querySelectorAll('.collapse-link');
+    for (var i = 0; i < collapseLinks.length; i++) {
+        collapseLinks[i].addEventListener('click', function(e) {
+            e.preventDefault();
+            // After collapse animation, re-fix arrow keys
+            setTimeout(fixArrowKeys, 300);
+        });
+    }
+});
+</script>
+
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
                 <h2><i class="fa fa-plus"></i> Add User</h2>
                 <ul class="nav navbar-right panel_toolbox">
-                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
-                    <li><a class="close-link"><i class="fa fa-close"></i></a></li>
+                    <li><a class="collapse-link" href="javascript:void(0);"><i class="fa fa-chevron-up"></i></a></li>
+                    <li><a class="close-link" href="javascript:void(0);"><i class="fa fa-close"></i></a></li>
                 </ul>
                 <div class="clearfix"></div>
             </div>
 
             <div class="x_content">
                 <!-- ================= FORM ================= -->
-                <form method="post" enctype="multipart/form-data" class="form-horizontal form-label-left">
+                <form method="post" enctype="multipart/form-data" class="form-horizontal form-label-left" id="addUserForm">
+                    
+                    <!-- Add hidden input to help with focus management -->
+                    <input type="text" style="position:absolute; opacity:0; height:0; padding:0; border:0; width:0;">
                     
                     <!-- PROFILE IMAGE UPLOAD -->
                     <div class="form-group">
                         <label class="control-label col-md-4">Profile Picture</label>
                         <div class="col-md-4">
-                            <input type="file" name="user_image" class="form-control" accept="image/*">
+                            <input type="file" name="user_image" class="form-control" accept="image/*" onfocus="this.select()">
                             <small class="text-muted">Optional. Accepts JPG, PNG, GIF (Max 2MB)</small>
                         </div>
                     </div>
@@ -40,7 +95,8 @@ include ('include/dbcon.php');
                                    max="2099"
                                    placeholder="e.g. 2022"
                                    required
-                                   class="form-control">
+                                   class="form-control"
+                                   onfocus="this.select()">
                         </div>
                     </div>
 
@@ -48,7 +104,7 @@ include ('include/dbcon.php');
                     <div class="form-group">
                         <label class="control-label col-md-4">First Name <span style="color:red">*</span></label>
                         <div class="col-md-3">
-                            <input type="text" name="firstname" required class="form-control">
+                            <input type="text" name="firstname" required class="form-control" onfocus="this.select()">
                         </div>
                     </div>
 
@@ -56,7 +112,7 @@ include ('include/dbcon.php');
                     <div class="form-group">
                         <label class="control-label col-md-4">Middle Name</label>
                         <div class="col-md-3">
-                            <input type="text" name="middlename" class="form-control">
+                            <input type="text" name="middlename" class="form-control" onfocus="this.select()">
                         </div>
                     </div>
 
@@ -64,7 +120,7 @@ include ('include/dbcon.php');
                     <div class="form-group">
                         <label class="control-label col-md-4">Last Name <span style="color:red">*</span></label>
                         <div class="col-md-3">
-                            <input type="text" name="lastname" required class="form-control">
+                            <input type="text" name="lastname" required class="form-control" onfocus="this.select()">
                         </div>
                     </div>
 
@@ -72,7 +128,7 @@ include ('include/dbcon.php');
                     <div class="form-group">
                         <label class="control-label col-md-4">Contact</label>
                         <div class="col-md-3">
-                            <input type="tel" name="contact" maxlength="11" class="form-control">
+                            <input type="tel" name="contact" maxlength="11" class="form-control" onfocus="this.select()">
                         </div>
                     </div>
 
@@ -80,7 +136,7 @@ include ('include/dbcon.php');
                     <div class="form-group">
                         <label class="control-label col-md-4">Gender <span style="color:red">*</span></label>
                         <div class="col-md-4">
-                            <select name="gender" required class="form-control">
+                            <select name="gender" required class="form-control" onfocus="this.select()">
                                 <option value="Male">Male</option>
                                 <option value="Female">Female</option>
                             </select>
@@ -91,7 +147,7 @@ include ('include/dbcon.php');
                     <div class="form-group">
                         <label class="control-label col-md-4">Address</label>
                         <div class="col-md-4">
-                            <input type="text" name="address" class="form-control">
+                            <input type="text" name="address" class="form-control" onfocus="this.select()">
                         </div>
                     </div>
 
@@ -99,7 +155,7 @@ include ('include/dbcon.php');
                     <div class="form-group">
                         <label class="control-label col-md-4">Type <span style="color:red">*</span></label>
                         <div class="col-md-4">
-                            <select name="type" required class="form-control">
+                            <select name="type" required class="form-control" onfocus="this.select()" onkeydown="return event.keyCode !== 38 && event.keyCode !== 40 || true">
                                 <option value="Student">Student</option>
                                 <option value="Teacher">Teacher</option>
                             </select>
@@ -110,19 +166,19 @@ include ('include/dbcon.php');
                     <div class="form-group">
                         <label class="control-label col-md-4">Level <span style="color:red">*</span></label>
                         <div class="col-md-4">
-                            <select name="level" required class="form-control">
+                            <select name="level" required class="form-control" onfocus="this.select()" onkeydown="return event.keyCode !== 38 && event.keyCode !== 40 || true">
                                 <option value="Form 1-North">Form 1-North</option>
-                                <option value="Form 1-South">Form 1-East</option>
-                                <option value="Form 1-South">Form 1-West</option>
+                                <option value="Form 1-East">Form 1-East</option>
+                                <option value="Form 1-West">Form 1-West</option>
                                 <option value="Form 2-North">Form 2-North</option>
-                                <option value="Form 2-North">Form 2-East</option>
-                                <option value="Form 2-North">Form 2-West</option>
+                                <option value="Form 2-East">Form 2-East</option>
+                                <option value="Form 2-West">Form 2-West</option>
                                 <option value="Form 3-North">Form 3-North</option>
-                                <option value="Form 3-North">Form 3-East</option>
-                                <option value="Form 3-North">Form 3-West</option>
+                                <option value="Form 3-East">Form 3-East</option>
+                                <option value="Form 3-West">Form 3-West</option>
                                 <option value="Form 4-North">Form 4-North</option>
-                                <option value="Form 4-North">Form 4-East</option>
-                                <option value="Form 4-North">Form 4-West</option>
+                                <option value="Form 4-East">Form 4-East</option>
+                                <option value="Form 4-West">Form 4-West</option>
                                 <option value="Faculty">Teacher</option>
                             </select>
                         </div>
@@ -132,7 +188,7 @@ include ('include/dbcon.php');
                     <div class="form-group">
                         <label class="control-label col-md-4">Section <span style="color:red">*</span></label>
                         <div class="col-md-3">
-                            <input type="text" name="section" required class="form-control">
+                            <input type="text" name="section" required class="form-control" onfocus="this.select()">
                         </div>
                     </div>
 
@@ -263,5 +319,78 @@ if (isset($_POST['submit'])) {
         </div>
     </div>
 </div>
+
+<!-- ADDITIONAL FIX FOR ARROW KEYS -->
+<script>
+// Additional fix to ensure arrow keys work after page load
+$(document).ready(function() {
+    // Remove any global event listeners that might block arrow keys
+    $(document).off('keydown.arrowBlock');
+    
+    // Re-enable arrow keys specifically for form elements
+    $('input, select, textarea').each(function() {
+        var $this = $(this);
+        
+        // Remove any existing keydown handlers
+        $this.off('keydown');
+        
+        // Add new handler that allows arrow keys
+        $this.on('keydown', function(e) {
+            // Arrow key codes: left=37, up=38, right=39, down=40
+            if (e.keyCode >= 37 && e.keyCode <= 40) {
+                e.stopPropagation();
+                e.stopImmediatePropagation();
+                return true;
+            }
+        });
+    });
+    
+    // Fix for select dropdowns specifically
+    $('select').on('focus', function() {
+        $(this).data('previous-index', this.selectedIndex);
+    }).on('keydown', function(e) {
+        // Allow up/down arrows in select elements
+        if (e.keyCode === 38 || e.keyCode === 40) {
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+            
+            // Get current index
+            var currentIndex = this.selectedIndex;
+            var optionCount = this.options.length;
+            
+            // Calculate new index
+            var newIndex = currentIndex;
+            if (e.keyCode === 38 && currentIndex > 0) {
+                newIndex = currentIndex - 1; // Up arrow
+            } else if (e.keyCode === 40 && currentIndex < optionCount - 1) {
+                newIndex = currentIndex + 1; // Down arrow
+            }
+            
+            // Set new selection
+            this.selectedIndex = newIndex;
+            
+            // Trigger change event
+            $(this).trigger('change');
+            
+            return false; // Prevent default browser behavior
+        }
+        return true;
+    });
+    
+    // Fix collapse panel links to prevent interference
+    $('.collapse-link').on('click', function(e) {
+        e.preventDefault();
+        var $panel = $(this).closest('.x_panel');
+        var $content = $panel.find('.x_content');
+        var $icon = $(this).find('i');
+        
+        $content.slideToggle(200, function() {
+            $panel.toggleClass('collapsed');
+        });
+        
+        $icon.toggleClass('fa-chevron-up fa-chevron-down');
+    });
+});
+</script>
 
 <?php include ('footer.php'); ?>

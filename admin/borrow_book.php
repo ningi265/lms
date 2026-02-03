@@ -14,6 +14,63 @@ $is_teacher = ($user_type == 'Teacher');
 // echo "User type value: " . $user_row['type'] . "<br>";
 // echo "Is teacher: " . ($is_teacher ? 'Yes' : 'No');
 ?>
+
+<!-- ARROW KEY FIX - Add this early in the page -->
+<script>
+// Fix for arrow key navigation in form inputs
+document.addEventListener('DOMContentLoaded', function() {
+    // Function to fix arrow keys in all form elements
+    function fixArrowKeys() {
+        // Get all form elements
+        var formElements = document.querySelectorAll('input, select, textarea, button');
+        
+        for (var i = 0; i < formElements.length; i++) {
+            // Add proper event listener
+            var element = formElements[i];
+            
+            element.addEventListener('keydown', function(e) {
+                // Allow arrow keys (left: 37, up: 38, right: 39, down: 40)
+                if (e.keyCode >= 37 && e.keyCode <= 40) {
+                    e.stopPropagation();
+                    e.stopImmediatePropagation();
+                    return true;
+                }
+            }, true); // Use capture phase to intercept early
+        }
+        
+        // Also prevent event bubbling from Bootstrap collapse
+        var forms = document.querySelectorAll('form');
+        for (var j = 0; j < forms.length; j++) {
+            forms[j].addEventListener('keydown', function(e) {
+                if (e.keyCode >= 37 && e.keyCode <= 40) {
+                    e.stopPropagation();
+                }
+            }, true);
+        }
+    }
+    
+    // Fix arrow keys immediately
+    fixArrowKeys();
+    
+    // Also fix when the collapse panel is toggled
+    var collapseLinks = document.querySelectorAll('.collapse-link');
+    for (var i = 0; i < collapseLinks.length; i++) {
+        collapseLinks[i].addEventListener('click', function(e) {
+            e.preventDefault();
+            // After collapse animation, re-fix arrow keys
+            setTimeout(fixArrowKeys, 300);
+        });
+    }
+    
+    // Focus on barcode input
+    var barcodeInput = document.getElementById('barcode');
+    if (barcodeInput) {
+        barcodeInput.focus();
+        barcodeInput.select();
+    }
+});
+</script>
+
         <div class="page-title">
             <div class="title_left">
                 <h3>
@@ -34,8 +91,8 @@ $is_teacher = ($user_type == 'Teacher');
 				</span>
 				</h2>
                     <ul class="nav navbar-right panel_toolbox">
-                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
-                        <li><a class="close-link"><i class="fa fa-close"></i></a></li>
+                        <li><a class="collapse-link" href="javascript:void(0);"><i class="fa fa-chevron-up"></i></a></li>
+                        <li><a class="close-link" href="javascript:void(0);"><i class="fa fa-close"></i></a></li>
                     </ul>
                     <div class="clearfix"></div>
             </div>
@@ -142,16 +199,16 @@ $is_teacher = ($user_type == 'Teacher');
 							<td><?php echo $penalty_display; ?></td>
 							<td>
 							<form method="post" action="" style="margin: 0;">
-							<input type="hidden" name="date_returned" value="<?php echo $date_returned; ?>">
-							<input type="hidden" name="user_id" value="<?php echo $user_row['user_id']; ?>">
-							<input type="hidden" name="borrow_book_ids" value="<?php echo $borrow_ids_str; ?>">
-							<input type="hidden" name="book_id" value="<?php echo $borrow_row['book_id']; ?>">
-							<input type="hidden" name="quantity" value="<?php echo $borrow_row['quantity']; ?>">
-							<input type="hidden" name="date_borrowed" value="<?php echo $date_borrowed; ?>">
-							<input type="hidden" name="due_date" value="<?php echo $due_date; ?>">
-							<button name="return_all" class="btn btn-danger btn-xs" onclick="return confirm('Return all <?php echo $borrow_row['quantity']; ?> copy(ies) of this book?');">
-								<i class="fa fa-undo"></i> Return All
-							</button>
+								<input type="hidden" name="date_returned" value="<?php echo $date_returned; ?>">
+								<input type="hidden" name="user_id" value="<?php echo $user_row['user_id']; ?>">
+								<input type="hidden" name="borrow_book_ids" value="<?php echo $borrow_ids_str; ?>">
+								<input type="hidden" name="book_id" value="<?php echo $borrow_row['book_id']; ?>">
+								<input type="hidden" name="quantity" value="<?php echo $borrow_row['quantity']; ?>">
+								<input type="hidden" name="date_borrowed" value="<?php echo $date_borrowed; ?>">
+								<input type="hidden" name="due_date" value="<?php echo $due_date; ?>">
+								<button name="return_all" class="btn btn-danger btn-xs" onclick="return confirm('Return all <?php echo $borrow_row['quantity']; ?> copy(ies) of this book?');" onfocus="this.blur();">
+									<i class="fa fa-undo"></i> Return All
+								</button>
 							</form>
 							</td>
 						</tr>
@@ -196,13 +253,13 @@ $is_teacher = ($user_type == 'Teacher');
 							<td><?php echo $penalty_display; ?></td>
 							<td>
 							<form method="post" action="" style="margin: 0;">
-							<input type="hidden" name="date_returned" value="<?php echo $date_returned; ?>">
-							<input type="hidden" name="user_id" value="<?php echo $borrow_row['user_id']; ?>">
-							<input type="hidden" name="borrow_book_id" value="<?php echo $borrow_row['borrow_book_id']; ?>">
-							<input type="hidden" name="book_id" value="<?php echo $borrow_row['book_id']; ?>">
-							<input type="hidden" name="date_borrowed" value="<?php echo $borrow_row['date_borrowed']; ?>">
-							<input type="hidden" name="due_date" value="<?php echo $borrow_row['due_date']; ?>">
-							<button name="return" class="btn btn-danger btn-xs"><i class="fa fa-undo"></i> Return</button>
+								<input type="hidden" name="date_returned" value="<?php echo $date_returned; ?>">
+								<input type="hidden" name="user_id" value="<?php echo $borrow_row['user_id']; ?>">
+								<input type="hidden" name="borrow_book_id" value="<?php echo $borrow_row['borrow_book_id']; ?>">
+								<input type="hidden" name="book_id" value="<?php echo $borrow_row['book_id']; ?>">
+								<input type="hidden" name="date_borrowed" value="<?php echo $borrow_row['date_borrowed']; ?>">
+								<input type="hidden" name="due_date" value="<?php echo $borrow_row['due_date']; ?>">
+								<button name="return" class="btn btn-danger btn-xs" onfocus="this.blur();"><i class="fa fa-undo"></i> Return</button>
 							</form>
 							</td>
 						</tr>
@@ -226,11 +283,14 @@ $is_teacher = ($user_type == 'Teacher');
 				<!-- Book borrowing section -->
 				<div class="row" style="margin-top:30px;">
 					<div class="col-md-12">
-						<form method="post" class="form-inline">
+						<form method="post" class="form-inline" id="barcodeForm">
+							<!-- Hidden input for focus management -->
+							<input type="text" style="position:absolute; opacity:0; height:0; padding:0; border:0; width:0;">
+							
 							<div class="form-group">
 								<label for="barcode" class="control-label">Scan/Enter Barcode:</label>
-								<input type="text" class="form-control" name="barcode" id="barcode" placeholder="Enter barcode here....." autofocus required style="margin-left: 10px; margin-right: 10px;">
-								<button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> Search</button>
+								<input type="text" class="form-control" name="barcode" id="barcode" placeholder="Enter barcode here....." required style="margin-left: 10px; margin-right: 10px;" onfocus="this.select()">
+								<button type="submit" class="btn btn-primary" onfocus="this.blur();"><i class="fa fa-search"></i> Search</button>
 							</div>
 						</form>
 					</div>
@@ -326,46 +386,47 @@ $is_teacher = ($user_type == 'Teacher');
 										
 										<?php if($available_copies > 0 && $book_row['status'] != 'Damaged' && $book_row['status'] != 'Lost'): ?>
 										<hr>
-										<form method="post" action="">
-										<input type="hidden" name="user_id" value="<?php echo $user_row['user_id']; ?>">
-										<input type="hidden" name="book_id" value="<?php echo $book_row['book_id']; ?>">
-										
-										<?php
-										$allowable_days_query = mysqli_query($con,"SELECT * FROM allowed_days ORDER BY allowed_days_id DESC LIMIT 1") or die(mysqli_error());
-										$allowable_days_row = mysqli_fetch_assoc($allowable_days_query);
-										
-										$timezone = "Asia/Manila";
-										if(function_exists('date_default_timezone_set')) date_default_timezone_set($timezone);
-										$cur_date = date("Y-m-d H:i:s");
-										$date_borrowed = date("Y-m-d H:i:s");
-										$due_date = date('Y-m-d H:i:s', strtotime("+".$allowable_days_row['no_of_days']." day"));
-										?>
-										<input type="hidden" name="due_date" value="<?php echo $due_date; ?>">
-										<input type="hidden" name="date_borrowed" value="<?php echo $date_borrowed; ?>">
-										
-										<?php if($is_teacher): ?>
-										<div class="form-group">
-											<label for="quantity">Quantity to Borrow:</label>
-											<select name="quantity" id="quantity" class="form-control" style="width: 100px; display: inline-block; margin-left: 10px;">
-												<?php 
-												$max_qty = min($available_copies, 10);
-												for($i = 1; $i <= $max_qty; $i++): 
-												?>
-												<option value="<?php echo $i; ?>"><?php echo $i; ?> copy<?php echo $i > 1 ? 'ies' : ''; ?></option>
-												<?php endfor; ?>
-											</select>
-										</div>
-										<br>
-										<?php endif; ?>
-										
-										<button name="borrow" class="btn btn-success btn-lg">
-											<i class="fa fa-check"></i> 
+										<form method="post" action="" id="borrowForm">
+											<input type="hidden" name="user_id" value="<?php echo $user_row['user_id']; ?>">
+											<input type="hidden" name="book_id" value="<?php echo $book_row['book_id']; ?>">
+											
+											<?php
+											$allowable_days_query = mysqli_query($con,"SELECT * FROM allowed_days ORDER BY allowed_days_id DESC LIMIT 1") or die(mysqli_error());
+											$allowable_days_row = mysqli_fetch_assoc($allowable_days_query);
+											
+											$timezone = "Asia/Manila";
+											if(function_exists('date_default_timezone_set')) date_default_timezone_set($timezone);
+											$cur_date = date("Y-m-d H:i:s");
+											$date_borrowed = date("Y-m-d H:i:s");
+											$due_date = date('Y-m-d H:i:s', strtotime("+".$allowable_days_row['no_of_days']." day"));
+											?>
+											<input type="hidden" name="due_date" value="<?php echo $due_date; ?>">
+											<input type="hidden" name="date_borrowed" value="<?php echo $date_borrowed; ?>">
+											
 											<?php if($is_teacher): ?>
-											Borrow Selected Copies
-											<?php else: ?>
-											Borrow This Book
+											<div class="form-group">
+												<label for="quantity">Quantity to Borrow:</label>
+												<select name="quantity" id="quantity" class="form-control" style="width: 100px; display: inline-block; margin-left: 10px;"
+												        onfocus="this.select()" onkeydown="return event.keyCode !== 38 && event.keyCode !== 40 || true">
+													<?php 
+													$max_qty = min($available_copies, 10);
+													for($i = 1; $i <= $max_qty; $i++): 
+													?>
+													<option value="<?php echo $i; ?>"><?php echo $i; ?> copy<?php echo $i > 1 ? 'ies' : ''; ?></option>
+													<?php endfor; ?>
+												</select>
+											</div>
+											<br>
 											<?php endif; ?>
-										</button>
+											
+											<button name="borrow" class="btn btn-success btn-lg" onfocus="this.blur();">
+												<i class="fa fa-check"></i> 
+												<?php if($is_teacher): ?>
+												Borrow Selected Copies
+												<?php else: ?>
+												Borrow This Book
+												<?php endif; ?>
+											</button>
 										</form>
 										<?php elseif($available_copies == 0): ?>
 										<div class="alert alert-danger">
@@ -619,10 +680,102 @@ $is_teacher = ($user_type == 'Teacher');
             </div>
         </div>
 
-<!-- DataTables Initialization -->
+<!-- ADDITIONAL FIX FOR ARROW KEYS -->
 <script>
+// Additional fix to ensure arrow keys work after page load
 $(document).ready(function() {
-    // Simple DataTables initialization with error handling
+    // Remove any global event listeners that might block arrow keys
+    $(document).off('keydown.arrowBlock');
+    
+    // Re-enable arrow keys specifically for form elements
+    $('input, select, textarea').each(function() {
+        var $this = $(this);
+        
+        // Remove any existing keydown handlers
+        $this.off('keydown');
+        
+        // Add new handler that allows arrow keys
+        $this.on('keydown', function(e) {
+            // Arrow key codes: left=37, up=38, right=39, down=40
+            if (e.keyCode >= 37 && e.keyCode <= 40) {
+                e.stopPropagation();
+                e.stopImmediatePropagation();
+                return true;
+            }
+        });
+    });
+    
+    // Fix for select dropdowns specifically
+    $('select').on('focus', function() {
+        $(this).data('previous-index', this.selectedIndex);
+    }).on('keydown', function(e) {
+        // Allow up/down arrows in select elements
+        if (e.keyCode === 38 || e.keyCode === 40) {
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+            
+            // Get current index
+            var currentIndex = this.selectedIndex;
+            var optionCount = this.options.length;
+            
+            // Calculate new index
+            var newIndex = currentIndex;
+            if (e.keyCode === 38 && currentIndex > 0) {
+                newIndex = currentIndex - 1; // Up arrow
+            } else if (e.keyCode === 40 && currentIndex < optionCount - 1) {
+                newIndex = currentIndex + 1; // Down arrow
+            }
+            
+            // Set new selection
+            this.selectedIndex = newIndex;
+            
+            // Trigger change event
+            $(this).trigger('change');
+            
+            return false; // Prevent default browser behavior
+        }
+        return true;
+    });
+    
+    // Fix collapse panel links to prevent interference
+    $('.collapse-link').on('click', function(e) {
+        e.preventDefault();
+        var $panel = $(this).closest('.x_panel');
+        var $content = $panel.find('.x_content');
+        var $icon = $(this).find('i');
+        
+        $content.slideToggle(200, function() {
+            $panel.toggleClass('collapsed');
+        });
+        
+        $icon.toggleClass('fa-chevron-up fa-chevron-down');
+        
+        // Re-focus on barcode input after collapse
+        setTimeout(function() {
+            var barcodeInput = $('#barcode');
+            if (barcodeInput.length) {
+                barcodeInput.focus().select();
+            }
+        }, 250);
+    });
+    
+    // Auto-focus on barcode input on page load
+    $('#barcode').focus().select();
+    
+    // Re-focus on barcode input after form submission or button clicks
+    $('form').on('submit', function() {
+        setTimeout(function() {
+            $('#barcode').focus().select();
+        }, 100);
+    });
+    
+    $('button[name="return"], button[name="return_all"], button[name="borrow"]').on('click', function() {
+        setTimeout(function() {
+            $('#barcode').focus().select();
+        }, 100);
+    });
+    
+    // DataTables Initialization
     var table = $('#borrowedBooksTable');
     
     // Check if table has rows (excluding the "no books" message row)
@@ -650,6 +803,16 @@ $(document).ready(function() {
                     "lengthMenu": "Show _MENU_ books",
                     "search": "Search:",
                     "zeroRecords": "No matching books found"
+                },
+                "drawCallback": function(settings) {
+                    // Re-apply arrow key fix after DataTables redraws the table
+                    $('input, select, textarea').off('keydown').on('keydown', function(e) {
+                        if (e.keyCode >= 37 && e.keyCode <= 40) {
+                            e.stopPropagation();
+                            e.stopImmediatePropagation();
+                            return true;
+                        }
+                    });
                 }
             });
         } catch(e) {

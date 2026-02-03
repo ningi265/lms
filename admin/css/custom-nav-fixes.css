@@ -1,0 +1,180 @@
+/* Custom Nav Fixes for Bootstrap v2.2.2 Compatibility */
+
+/* Remove Bootstrap's default navbar behavior */
+.navbar {
+    min-height: 50px;
+    margin-bottom: 0;
+}
+
+.navbar-inner {
+    min-height: 50px;
+    padding: 0;
+    background: none;
+    border: none;
+    box-shadow: none;
+    filter: none;
+}
+
+/* Fix for mobile view */
+@media (max-width: 991px) {
+    /* Hide sidebar by default on mobile */
+    .left_col {
+        display: none;
+    }
+
+    .top_nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1030;
+        height: 50px;
+        background: #EDEDED;
+        border-bottom: 1px solid #D9DEE4;
+        margin: 0 !important;
+        width: 100% !important;
+    }
+    
+    .nav_menu {
+        position: relative;
+        height: 50px;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+    }
+    
+    /* Position hamburger to left edge */
+    .nav.toggle {
+        position: absolute !important;
+        left: 0 !important;
+        top: 0 !important;
+        float: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        display: block !important;
+        z-index: 1050;
+    }
+    
+    #menu_toggle {
+        display: block !important;
+        float: none !important;
+        margin: 15px !important;
+        padding: 0 !important;
+        width: auto !important;
+        height: auto !important;
+        background: none !important;
+        border: none !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+        color: inherit !important;
+        line-height: normal !important;
+    }
+    
+    #menu_toggle i {
+        font-size: 20px !important;
+        color: #5A738E !important;
+        margin: 0 !important;
+    }
+    
+    /* Position user menu to right edge */
+    .navbar-right {
+        position: absolute !important;
+        right: 0 !important;
+        top: 0 !important;
+        margin: 0 !important;
+        float: right !important;
+        height: 50px;
+    }
+    
+    /* Mobile sidebar overlay styles */
+    body.menu-open .left_col {
+        display: block !important;
+        position: fixed !important;
+        top: 50px; /* below fixed top_nav */
+        left: 0;
+        bottom: 0;
+        width: 230px;
+        background: #2A3F54;
+        z-index: 2000;
+        overflow-y: auto;
+        pointer-events: auto;
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Optional: Add a backdrop when menu is open */
+    body.menu-open::before {
+        content: '';
+        position: fixed;
+        top: 50px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1999;
+    }
+
+    body.menu-open .container.body .right_col {
+        position: relative;
+        z-index: 1;
+        /* keep content below overlay but still clickable where visible */
+    }
+    
+    /* Adjust main content for fixed nav */
+    .right_col {
+        padding-top: 50px !important;
+    }
+}
+
+/* Desktop styles */
+@media (min-width: 992px) {
+    .nav.toggle {
+        float: left;
+        margin: 13px 0 0 10px;
+    }
+    
+    .navbar-right {
+        margin-right: 0;
+    }
+}
+
+/* Force icon visibility in mobile collapsed state */
+body.menu-open .left_col i.fa {
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    font-size: 18px !important;
+    color: #ECF0F1 !important;
+    font-family: 'FontAwesome' !important;
+}
+
+/* Ensure menu links are visible */
+body.menu-open .left_col .nav.side-menu li a {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+
+
+
+/* Remove all Bootstrap button styling from our toggle */
+#menu_toggle {
+    background: none;
+    background-image: none;
+    filter: none;
+    border: none;
+    box-shadow: none;
+    text-shadow: none;
+    border-radius: 0;
+}
+
+#menu_toggle:hover,
+#menu_toggle:focus,
+#menu_toggle:active {
+    background: none;
+    background-image: none;
+    filter: none;
+    border: none;
+    box-shadow: none;
+    outline: none;
+}

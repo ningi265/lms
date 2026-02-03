@@ -18,6 +18,55 @@ $generate_barcode = $pre_barcode . $new_barcode . $suf_barcode;
 
 <?php include ('header.php'); ?>
 
+<!-- ARROW KEY FIX - Add this early in the page -->
+<script>
+// Fix for arrow key navigation in form inputs
+document.addEventListener('DOMContentLoaded', function() {
+    // Function to fix arrow keys in all form elements
+    function fixArrowKeys() {
+        // Get all form elements
+        var formElements = document.querySelectorAll('input, select, textarea');
+        
+        for (var i = 0; i < formElements.length; i++) {
+            // Add proper event listener
+            var element = formElements[i];
+            
+            element.addEventListener('keydown', function(e) {
+                // Allow arrow keys (left: 37, up: 38, right: 39, down: 40)
+                if (e.keyCode >= 37 && e.keyCode <= 40) {
+                    e.stopPropagation();
+                    e.stopImmediatePropagation();
+                    return true;
+                }
+            }, true); // Use capture phase to intercept early
+        }
+        
+        // Also prevent event bubbling from Bootstrap collapse
+        var form = document.querySelector('form');
+        if (form) {
+            form.addEventListener('keydown', function(e) {
+                if (e.keyCode >= 37 && e.keyCode <= 40) {
+                    e.stopPropagation();
+                }
+            }, true);
+        }
+    }
+    
+    // Fix arrow keys immediately
+    fixArrowKeys();
+    
+    // Also fix when the collapse panel is toggled
+    var collapseLinks = document.querySelectorAll('.collapse-link');
+    for (var i = 0; i < collapseLinks.length; i++) {
+        collapseLinks[i].addEventListener('click', function(e) {
+            e.preventDefault();
+            // After collapse animation, re-fix arrow keys
+            setTimeout(fixArrowKeys, 300);
+        });
+    }
+});
+</script>
+
 <div class="page-title">
     <div class="title_left">
         <h3>
@@ -33,83 +82,86 @@ $generate_barcode = $pre_barcode . $new_barcode . $suf_barcode;
             <div class="x_title">
                 <h2><i class="fa fa-plus"></i> Add Book</h2>
                 <ul class="nav navbar-right panel_toolbox">
-                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
-                    <li><a class="close-link"><i class="fa fa-close"></i></a></li>
+                    <li><a class="collapse-link" href="javascript:void(0);"><i class="fa fa-chevron-up"></i></a></li>
+                    <li><a class="close-link" href="javascript:void(0);"><i class="fa fa-close"></i></a></li>
                 </ul>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
                 <!-- content starts here -->
-                <form method="post" enctype="multipart/form-data" class="form-horizontal form-label-left">
+                <form method="post" enctype="multipart/form-data" class="form-horizontal form-label-left" id="addBookForm">
+                    <!-- Add hidden input to help with focus management -->
+                    <input type="text" style="position:absolute; opacity:0; height:0; padding:0; border:0; width:0;">
+                    
                     <input type="hidden" name="new_barcode" value="<?php echo $new_barcode; ?>">
                     
                     <div class="form-group">
                         <label class="control-label col-md-4" for="first-name">Title <span class="required" style="color:red;">*</span></label>
                         <div class="col-md-4">
-                            <input type="text" name="book_title" id="first-name2" required="required" class="form-control col-md-7 col-xs-12">
+                            <input type="text" name="book_title" id="first-name2" required="required" class="form-control col-md-7 col-xs-12" onfocus="this.select()">
                         </div>
                     </div>
                     
                     <div class="form-group">
                         <label class="control-label col-md-4" for="first-name">Author 1 <span class="required" style="color:red;">*</span></label>
                         <div class="col-md-4">
-                            <input type="text" name="author" id="first-name2" required="required" class="form-control col-md-7 col-xs-12">
+                            <input type="text" name="author" id="first-name2" required="required" class="form-control col-md-7 col-xs-12" onfocus="this.select()">
                         </div>
                     </div>
                     
                     <div class="form-group">
                         <label class="control-label col-md-4" for="first-name">Author 2</label>
                         <div class="col-md-4">
-                            <input type="text" name="author_2" id="first-name2" class="form-control col-md-7 col-xs-12">
+                            <input type="text" name="author_2" id="first-name2" class="form-control col-md-7 col-xs-12" onfocus="this.select()">
                         </div>
                     </div>
                     
                     <div class="form-group">
                         <label class="control-label col-md-4" for="first-name">Author 3</label>
                         <div class="col-md-4">
-                            <input type="text" name="author_3" id="first-name2" class="form-control col-md-7 col-xs-12">
+                            <input type="text" name="author_3" id="first-name2" class="form-control col-md-7 col-xs-12" onfocus="this.select()">
                         </div>
                     </div>
                     
                     <div class="form-group">
                         <label class="control-label col-md-4" for="first-name">Author 4</label>
                         <div class="col-md-4">
-                            <input type="text" name="author_4" id="first-name2" class="form-control col-md-7 col-xs-12">
+                            <input type="text" name="author_4" id="first-name2" class="form-control col-md-7 col-xs-12" onfocus="this.select()">
                         </div>
                     </div>
                     
                     <div class="form-group">
                         <label class="control-label col-md-4" for="first-name">Author 5</label>
                         <div class="col-md-4">
-                            <input type="text" name="author_5" id="first-name2" class="form-control col-md-7 col-xs-12">
+                            <input type="text" name="author_5" id="first-name2" class="form-control col-md-7 col-xs-12" onfocus="this.select()">
                         </div>
                     </div>
                     
                     <div class="form-group">
                         <label class="control-label col-md-4" for="last-name">Publication</label>
                         <div class="col-md-4">
-                            <input type="text" name="book_pub" id="last-name2" class="form-control col-md-7 col-xs-12">
+                            <input type="text" name="book_pub" id="last-name2" class="form-control col-md-7 col-xs-12" onfocus="this.select()">
                         </div>
                     </div>
                     
                     <div class="form-group">
                         <label class="control-label col-md-4" for="last-name">Publisher</label>
                         <div class="col-md-4">
-                            <input type="text" name="publisher_name" id="last-name2" class="form-control col-md-7 col-xs-12">
+                            <input type="text" name="publisher_name" id="last-name2" class="form-control col-md-7 col-xs-12" onfocus="this.select()">
                         </div>
                     </div>
                     
                     <div class="form-group">
                         <label class="control-label col-md-4" for="last-name">ISBN <span class="required" style="color:red;">*</span></label>
                         <div class="col-md-4">
-                            <input type="text" name="isbn" id="last-name2" class="form-control col-md-7 col-xs-12" required="required">
+                            <input type="text" name="isbn" id="last-name2" class="form-control col-md-7 col-xs-12" required="required" onfocus="this.select()">
                         </div>
                     </div>
                     
                     <div class="form-group">
                         <label class="control-label col-md-4" for="last-name">Copyright Year</label>
                         <div class="col-md-4">
-                            <input type="number" name="copyright_year" id="copyright_year" min="1000" max="2099" class="form-control col-md-7 col-xs-12" placeholder="YYYY">
+                            <input type="number" name="copyright_year" id="copyright_year" min="1000" max="2099" class="form-control col-md-7 col-xs-12" placeholder="YYYY" onfocus="this.select()">
                         </div>
                     </div>
                     
@@ -117,7 +169,7 @@ $generate_barcode = $pre_barcode . $new_barcode . $suf_barcode;
                     <div class="form-group">
                         <label class="control-label col-md-4" for="last-name">Total Copies <span class="required" style="color:red;">*</span></label>
                         <div class="col-md-1">
-                            <input type="number" name="book_copies" step="1" min="1" max="1000" required="required" class="form-control col-md-7 col-xs-12" id="total_copies">
+                            <input type="number" name="book_copies" step="1" min="1" max="1000" required="required" class="form-control col-md-7 col-xs-12" id="total_copies" onfocus="this.select()">
                             <small class="text-muted">Total inventory copies</small>
                         </div>
                     </div>
@@ -126,7 +178,7 @@ $generate_barcode = $pre_barcode . $new_barcode . $suf_barcode;
                     <div class="form-group">
                         <label class="control-label col-md-4" for="last-name">Available Copies <span class="required" style="color:red;">*</span></label>
                         <div class="col-md-1">
-                            <input type="number" name="available_copies" step="1" min="0" max="1000" required="required" class="form-control col-md-7 col-xs-12" id="available_copies">
+                            <input type="number" name="available_copies" step="1" min="0" max="1000" required="required" class="form-control col-md-7 col-xs-12" id="available_copies" onfocus="this.select()">
                             <small class="text-muted">Copies currently available for borrowing</small>
                         </div>
                     </div>
@@ -134,7 +186,8 @@ $generate_barcode = $pre_barcode . $new_barcode . $suf_barcode;
                     <div class="form-group">
                         <label class="control-label col-md-4" for="last-name">Status <span class="required" style="color:red;">*</span></label>
                         <div class="col-md-4">
-                            <select name="status" class="select2_single form-control" tabindex="-1" required="required" id="status_select">
+                            <select name="status" class="select2_single form-control" tabindex="-1" required="required" id="status_select"
+                                    onfocus="this.select()" onkeydown="return event.keyCode !== 38 && event.keyCode !== 40 || true">
                                 <option value="New">New</option>
                                 <option value="Old">Old</option>
                                 <option value="Lost">Lost</option>
@@ -148,7 +201,8 @@ $generate_barcode = $pre_barcode . $new_barcode . $suf_barcode;
                     <div class="form-group">
                         <label class="control-label col-md-4" for="last-name">Category <span class="required" style="color:red;">*</span></label>
                         <div class="col-md-4">
-                            <select name="category_id" class="select2_single form-control" tabindex="-1" required="required">
+                            <select name="category_id" class="select2_single form-control" tabindex="-1" required="required"
+                                    onfocus="this.select()" onkeydown="return event.keyCode !== 38 && event.keyCode !== 40 || true">
                                 <?php
                                 $result = mysqli_query($con, "SELECT * FROM category") or die(mysqli_error($con));
                                 while ($row = mysqli_fetch_array($result)) {
@@ -303,9 +357,113 @@ $generate_barcode = $pre_barcode . $new_barcode . $suf_barcode;
     </div>
 </div>
 
-<!-- JavaScript to automatically set available copies based on status and total copies -->
+<!-- ADDITIONAL FIX FOR ARROW KEYS -->
 <script>
+// Additional fix to ensure arrow keys work after page load
 $(document).ready(function() {
+    // Remove any global event listeners that might block arrow keys
+    $(document).off('keydown.arrowBlock');
+    
+    // Re-enable arrow keys specifically for form elements
+    $('input, select, textarea').each(function() {
+        var $this = $(this);
+        
+        // Remove any existing keydown handlers
+        $this.off('keydown');
+        
+        // Add new handler that allows arrow keys
+        $this.on('keydown', function(e) {
+            // Arrow key codes: left=37, up=38, right=39, down=40
+            if (e.keyCode >= 37 && e.keyCode <= 40) {
+                e.stopPropagation();
+                e.stopImmediatePropagation();
+                return true;
+            }
+        });
+    });
+    
+    // Fix for select2 dropdowns (if using select2)
+    if ($.fn.select2) {
+        $('.select2_single').each(function() {
+            var $select = $(this);
+            
+            // Store the select2 instance
+            $select.data('select2-instance', $select.select2());
+            
+            // Fix arrow key navigation in select2
+            $select.on('select2:open', function(e) {
+                // Allow arrow keys in the select2 dropdown
+                var $dropdown = $('.select2-container--open');
+                if ($dropdown.length) {
+                    $dropdown.off('keydown').on('keydown', function(e) {
+                        if (e.keyCode >= 37 && e.keyCode <= 40) {
+                            e.stopPropagation();
+                            return true;
+                        }
+                    });
+                }
+            });
+        });
+    }
+    
+    // Fix for select dropdowns specifically
+    $('select').on('focus', function() {
+        $(this).data('previous-index', this.selectedIndex);
+    }).on('keydown', function(e) {
+        // Allow up/down arrows in select elements
+        if (e.keyCode === 38 || e.keyCode === 40) {
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+            
+            // Get current index
+            var currentIndex = this.selectedIndex;
+            var optionCount = this.options.length;
+            
+            // Calculate new index
+            var newIndex = currentIndex;
+            if (e.keyCode === 38 && currentIndex > 0) {
+                newIndex = currentIndex - 1; // Up arrow
+            } else if (e.keyCode === 40 && currentIndex < optionCount - 1) {
+                newIndex = currentIndex + 1; // Down arrow
+            }
+            
+            // Set new selection
+            this.selectedIndex = newIndex;
+            
+            // Trigger change event
+            $(this).trigger('change');
+            
+            return false; // Prevent default browser behavior
+        }
+        return true;
+    });
+    
+    // Fix collapse panel links to prevent interference
+    $('.collapse-link').on('click', function(e) {
+        e.preventDefault();
+        var $panel = $(this).closest('.x_panel');
+        var $content = $panel.find('.x_content');
+        var $icon = $(this).find('i');
+        
+        $content.slideToggle(200, function() {
+            $panel.toggleClass('collapsed');
+        });
+        
+        $icon.toggleClass('fa-chevron-up fa-chevron-down');
+        
+        // Re-fix arrow keys after collapse animation
+        setTimeout(function() {
+            $('input, select, textarea').off('keydown').on('keydown', function(e) {
+                if (e.keyCode >= 37 && e.keyCode <= 40) {
+                    e.stopPropagation();
+                    e.stopImmediatePropagation();
+                    return true;
+                }
+            });
+        }, 250);
+    });
+    
+    // JavaScript to automatically set available copies based on status and total copies
     // Set initial available copies equal to total copies
     $('#total_copies').on('input', function() {
         var totalCopies = parseInt($(this).val()) || 0;

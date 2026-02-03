@@ -25,27 +25,54 @@ $(function () {
         }
     });
 
-    $('#menu_toggle').click(function () {
-        if ($('body').hasClass('nav-md')) {
-            $('body').removeClass('nav-md');
-            $('body').addClass('nav-sm');
-            $('.left_col').removeClass('scroll-view');
-            $('.left_col').removeAttr('style');
-            $('.sidebar-footer').hide();
-
-            if ($('#sidebar-menu li').hasClass('active')) {
-                $('#sidebar-menu li.active').addClass('active-sm');
-                $('#sidebar-menu li.active').removeClass('active');
+    $('#menu_toggle').click(function (e) {
+        e.preventDefault();
+        console.log('Menu toggle clicked');
+        var MOBILE_BREAKPOINT = 991;
+        var isMobile = $(window).width() <= MOBILE_BREAKPOINT;
+        console.log('Is mobile:', isMobile, 'Window width:', $(window).width());
+        
+        if (isMobile) {
+            // Mobile: toggle overlay menu
+            $('body').toggleClass('menu-open');
+            console.log('Mobile menu toggled, menu-open:', $('body').hasClass('menu-open'));
+            if ($('body').hasClass('menu-open')) {
+                $('.left_col').show().css({
+                    'display': 'block',
+                    'position': 'fixed',
+                    'top': '50px',
+                    'left': '0',
+                    'bottom': '0',
+                    'width': '230px',
+                    'z-index': '2000'
+                });
+            } else {
+                $('.left_col').hide();
             }
         } else {
-            $('body').removeClass('nav-sm');
-            $('body').addClass('nav-md');
-            $('.sidebar-footer').show();
+            // Desktop: toggle between nav-md and nav-sm
+            console.log('Desktop mode - Current body classes:', $('body').attr('class'));
+            if ($('body').hasClass('nav-md')) {
+                console.log('Collapsing to nav-sm');
+                $('body').removeClass('nav-md').addClass('nav-sm');
+                $('.col-md-3.left_col').removeClass('scroll-view').removeAttr('style');
+                $('.sidebar-footer').hide();
 
-            if ($('#sidebar-menu li').hasClass('active-sm')) {
-                $('#sidebar-menu li.active-sm').addClass('active');
-                $('#sidebar-menu li.active-sm').removeClass('active-sm');
+                if ($('#sidebar-menu li').hasClass('active')) {
+                    $('#sidebar-menu li.active').addClass('active-sm').removeClass('active');
+                }
+            } else {
+                console.log('Expanding to nav-md');
+                $('body').removeClass('nav-sm').addClass('nav-md');
+                $('.col-md-3.left_col').addClass('scroll-view');
+                $('.sidebar-footer').show();
+
+                if ($('#sidebar-menu li').hasClass('active-sm')) {
+                    $('#sidebar-menu li.active-sm').addClass('active').removeClass('active-sm');
+                }
             }
+            console.log('After toggle - Body classes:', $('body').attr('class'));
+            console.log('Left col classes:', $('.left_col').attr('class'));
         }
     });
 });
@@ -315,3 +342,61 @@ $(document).ready(function () {
 
 });
 /** ******  /scrollview  *********************** **/
+
+// custom.js - Sidebar toggle functionality
+$(document).ready(function() {
+    // Sidebar toggle functionality
+    $('#menu_toggle').click(function() {
+        const $body = $('body');
+        const $mainContainer = $('.main_container');
+        
+        if ($body.hasClass('nav-sm')) {
+            // If sidebar is collapsed, expand it
+            $body.removeClass('nav-sm');
+            $mainContainer.removeClass('nav-sm');
+            // Store the state in localStorage
+            localStorage.setItem('sidebarState', 'expanded');
+        } else {
+            // If sidebar is expanded, collapse it
+            $body.addClass('nav-sm');
+            $mainContainer.addClass('nav-sm');
+            // Store the state in localStorage
+            localStorage.setItem('sidebarState', 'collapsed');
+        }
+    });
+    
+    // Check and apply saved sidebar state on page load
+    function applySavedSidebarState() {
+        const savedState = localStorage.getItem('sidebarState');
+        const $body = $('body');
+        const $mainContainer = $('.main_container');
+        
+        if (savedState === 'collapsed') {
+            $body.addClass('nav-sm');
+            $mainContainer.addClass('nav-sm');
+        } else {
+            $body.removeClass('nav-sm');
+            $mainContainer.removeClass('nav-sm');
+        }
+    }
+    
+    // Apply saved state when page loads
+    applySavedSidebarState();
+    
+    // Also handle window resize for responsive behavior
+    $(window).resize(function() {
+        if ($(window).width() < 768) {
+            $('body').addClass('nav-sm');
+            $('.main_container').addClass('nav-sm');
+        } else {
+            // On larger screens, apply saved state
+            applySavedSidebarState();
+        }
+    });
+    
+    // Initialize on page load for responsive
+    if ($(window).width() < 768) {
+        $('body').addClass('nav-sm');
+        $('.main_container').addClass('nav-sm');
+    }
+});

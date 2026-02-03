@@ -241,6 +241,51 @@
         });
     </script>
     <!-- /input mask -->
+    <!-- Sidebar initialization for responsive behavior -->
+    <script>
+        $(function () {
+            var MOBILE_BREAKPOINT = 991;
+
+            // Initialize sidebar state based on screen size
+            function initSidebarState() {
+                var isMobile = $(window).width() <= MOBILE_BREAKPOINT;
+                
+                if (isMobile) {
+                    $('body').removeClass('menu-open');
+                    $('.left_col').hide();
+                } else {
+                    if (!$('body').hasClass('nav-md') && !$('body').hasClass('nav-sm')) {
+                        $('body').addClass('nav-md');
+                    }
+                    $('.left_col').show().removeAttr('style');
+                }
+            }
+
+            // Initialize on page load
+            initSidebarState();
+
+            // Reinitialize on window resize (debounced)
+            var resizeTimer;
+            $(window).on('resize', function() {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(function() {
+                    initSidebarState();
+                }, 250);
+            });
+
+            // Close mobile menu when clicking outside
+            $(document).on('click', function(e) {
+                var isMobile = $(window).width() <= MOBILE_BREAKPOINT;
+                if (isMobile && $('body').hasClass('menu-open')) {
+                    if (!$(e.target).closest('.left_col').length && !$(e.target).closest('#menu_toggle').length) {
+                        $('body').removeClass('menu-open');
+                        $('.left_col').hide();
+                    }
+                }
+            });
+        });
+    </script>
+
     <!-- ion_range -->
     <script>
         $(function () {

@@ -6,6 +6,16 @@ body.nav-sm .container.body .left_col {
     z-index: 200;
 }
 
+/* Base styling for left sidebar (desktop & mobile) */
+.left_col {
+    background: #2A3F54;
+}
+
+/* Ensure scroll-view variant also has solid background */
+.left_col.scroll-view {
+    background: #2A3F54;
+}
+
 body.nav-sm .container.body .right_col {
     padding: 10px 20px;
     margin-left: 70px;
@@ -231,10 +241,14 @@ body.nav-md .container.body .right_col {
     }
     body.nav-md .container.body .right_col {
         width: 100%;
-        padding-right: 0
+        padding-right: 0;
     }
     .right_col {
         padding: 10px !important;
+    }
+    /* Improve dashboard tiles layout on small screens */
+    .row.tile_count {
+        margin-right: 0 !important;
     }
 }
 
