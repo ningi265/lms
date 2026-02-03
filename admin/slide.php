@@ -4,13 +4,13 @@
         <div class="col-md-12" style="padding: 0;">
             <div id="slidy-container" style="width: 100%; overflow: hidden;">
                 <figure id="slidy">
-                    <img class="img-responsive" src="images/vnhs1.jpg" alt="">
-                    <img class="img-responsive" src="images/vnhs2.jpg" alt="">
-                    <img class="img-responsive" src="images/vnhs3.jpg" alt="">
-                    <img class="img-responsive" src="images/vnhs4.jpg" alt="">
-                    <img class="img-responsive" src="images/vnhs5.jpg" alt="">
-                    <img class="img-responsive" src="images/vnhs6.jpg" alt="">
-                    <img class="img-responsive" src="images/vnhs7.jpg" alt="">
+                    <img class="img-responsive" src="images/vnhs1.JPG" alt="">
+                    <img class="img-responsive" src="images/vnhs2.JPG" alt="">
+                    <img class="img-responsive" src="images/vnhs3.JPG" alt="">
+                    <img class="img-responsive" src="images/vnhs4.JPG" alt="">
+                    <img class="img-responsive" src="images/vnhs5.JPG" alt="">
+                    <img class="img-responsive" src="images/vnhs6.JPG" alt="">
+                    <img class="img-responsive" src="images/vnhs7.JPG" alt="">
                 </figure>
             </div>
         </div>
