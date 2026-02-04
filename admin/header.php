@@ -35,12 +35,10 @@
     <!-- Custom styling plus plugins -->
     <link href="css/custom.css" rel="stylesheet">
     <link href="css/icheck/flat/green.css" rel="stylesheet">
-    <link href="css/custom-nav-fixes.css" rel="stylesheet">
     <!-- ion_range -->
     <link rel="stylesheet" href="css/normalize.css" />
     <link rel="stylesheet" href="css/ion.rangeSlider.css" />
     <link rel="stylesheet" href="css/ion.rangeSlider.skinFlat.css" />
-    
 
     <!-- colorpicker -->
     <link href="css/colorpicker/bootstrap-colorpicker.min.css" rel="stylesheet">
@@ -59,14 +57,10 @@
 		<script type="text/javascript" charset="utf-8" language="javascript" src="js/jquery.dataTables.js"></script>
 		<script type="text/javascript" charset="utf-8" language="javascript" src="js/DT_bootstrap.js"></script>
 		<script src="js/nprogress.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script src="js/custom.js"></script>
 		
     <script>
         NProgress.start();
     </script>
-
-    
     
     <!--[if lt IE 9]>
         <script src="../assets/js/ie8-responsive-file-warning.js"></script>
@@ -79,7 +73,6 @@
         <![endif]-->
 
 </head>
-
 
 
 <body class="nav-md">

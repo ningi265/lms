@@ -1,11 +1,6 @@
 <?php include ('header.php'); ?>
 
         <div class="page-title">
-            <div class="title_left">
-                <h3>
-					<small>Home /</small> Members
-                </h3>
-            </div>
         </div>
         <div class="clearfix"></div>
  

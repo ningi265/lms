@@ -1,39 +1,12 @@
-body.nav-sm .container.body .left_col {
-    width: 70px;
-    padding: 0;
-    position: fixed;
-    height: 100%;
-    z-index: 200;
+/* Sidebar transitions */
+.left_col,
+.right_col,
+.top_nav,
+.nav_title {
+    transition: all 0.3s ease;
 }
 
-/* Base styling for left sidebar (desktop & mobile) */
-.left_col {
-    background: #2A3F54;
-}
-
-/* Ensure scroll-view variant also has solid background */
-.left_col.scroll-view {
-    background: #2A3F54;
-}
-
-body.nav-sm .container.body .right_col {
-    padding: 10px 20px;
-    margin-left: 70px;
-    z-index: 2;
-}
 .right_col{min-height: 1000px;}
-body.nav-sm .navbar.nav_title {
-    width: 70px;
-}
-
-body.nav-sm .navbar.nav_title a span {
-    display: none;
-}
-
-body.nav-sm .navbar.nav_title a i {
-    font-size: 27px;
-    margin: 13px 0 0 3px;
-}
 
 .site_title i {
     border: 1px solid #EAEAEA;
@@ -41,64 +14,103 @@ body.nav-sm .navbar.nav_title a i {
     border-radius: 50%;
 }
 
-body.nav-sm .main_container .top_nav {
-    padding: 0 !important;
-    display: block;
-    margin-left: 70px;
-    z-index: 2;
-}
-
-body.nav-sm .nav.side-menu li a {
-    text-align: center !important;
-    font-weight: 400;
-    font-size: 10px;
-    padding: 10px 5px;
-}
-
-body.nav-sm .nav.side-menu li.active-sm {
-    border-right: 5px solid #1ABB9C;
-}
-
-body.nav-sm > .nav.side-menu > li.active-sm > a {
-    color: #1ABB9C !important;
-}
-
-body.nav-sm .nav.side-menu li a i.toggle-up {
-    display: none !important;
-}
-
-body.nav-sm .nav.side-menu li a i {
-    font-size: 25px !important;
-    text-align: center;
-    width: 100% !important;
-    margin-bottom: 5px;
-}
-
-body.nav-sm ul.nav.child_menu {
-    left: 100%;
-    position: absolute;
-    top: 0;
-    padding: 10px;
-    width: 210px;
-    z-index: 4000;
-    background: #3E5367;
-    display: none;
-}
-
-body.nav-sm ul.nav.child_menu li {
-    padding-left: 0;
-}
-
-body.nav-sm ul.nav.child_menu li a {
-    text-align: left !important;
-}
-
-body.nav-sm .profile {
-    display: none;
-}
-
 .menu_section {
     margin-bottom: 35px;
+}
+
+/* Desktop collapsed sidebar styles - only apply on screens > 991px */
+@media (min-width: 992px) {
+    body.nav-sm .container.body .left_col {
+        width: 70px;
+        padding: 0;
+        position: fixed;
+        height: 100%;
+        z-index: 200;
+    }
+
+    body.nav-sm .container.body .right_col {
+        padding: 10px 20px;
+        margin-left: 70px;
+        z-index: 2;
+    }
+
+    body.nav-sm .navbar.nav_title {
+        width: 70px;
+    }
+
+    body.nav-sm .navbar.nav_title a span {
+        display: none;
+    }
+
+    body.nav-sm .navbar.nav_title a i {
+        font-size: 27px;
+        margin: 13px 0 0 3px;
+    }
+
+    body.nav-sm .main_container .top_nav {
+        padding: 0 !important;
+        display: block;
+        margin-left: 70px;
+        z-index: 2;
+    }
+
+    body.nav-sm .nav.side-menu li a {
+        text-align: center !important;
+        font-weight: 400;
+        font-size: 10px;
+        padding: 10px 5px;
+    }
+
+    body.nav-sm .nav.side-menu li.active-sm {
+        border-right: 5px solid #1ABB9C;
+    }
+
+    body.nav-sm > .nav.side-menu > li.active-sm > a {
+        color: #1ABB9C !important;
+    }
+
+    body.nav-sm .nav.side-menu li a i.toggle-up {
+        display: none !important;
+    }
+
+    body.nav-sm .nav.side-menu li a i {
+        font-size: 25px !important;
+        text-align: center;
+        width: 100% !important;
+        margin-bottom: 5px;
+    }
+
+    body.nav-sm ul.nav.child_menu {
+        left: 100%;
+        position: absolute;
+        top: 0;
+        padding: 10px;
+        width: 210px;
+        z-index: 4000;
+        background: #3E5367;
+        display: none;
+    }
+
+    body.nav-sm ul.nav.child_menu li {
+        padding-left: 0;
+    }
+
+    body.nav-sm ul.nav.child_menu li a {
+        text-align: left !important;
+    }
+
+    body.nav-sm .profile {
+        display: none;
+    }
+
+    body.nav-sm .menu_section {
+        margin: 0;
+    }
+
+    body.nav-sm span.fa,
+    body.nav-sm .menu_section h3 {
+        display: none !important;
+    }
 }
 
 .menu_section h3 {
@@ -186,15 +198,6 @@ body.nav-sm .profile {
     margin-right: 4px;
 }
 
-body.nav-sm .menu_section {
-    margin: 0;
-}
-
-body.nav-sm span.fa,
-body.nav-sm .menu_section h3 {
-    display: none !important;
-}
-
 .nav_menu {
     float: left;
     /*background: #F4F6F9;
@@ -204,6 +207,17 @@ body.nav-sm .menu_section h3 {
     border-bottom: 1px solid #D9DEE4;
     margin-bottom: 10px;
     width: 100%;
+}
+
+/* Hamburger menu toggle */
+#menu_toggle {
+    cursor: pointer;
+    padding: 13px 15px;
+    display: inline-block;
+}
+
+#menu_toggle:hover {
+    background: #D9DEE4;
 }
 
 body.nav-md .container.body .col-md-3.left_col {
@@ -241,14 +255,53 @@ body.nav-md .container.body .right_col {
     }
     body.nav-md .container.body .right_col {
         width: 100%;
-        padding-right: 0;
+        padding-right: 0
     }
     .right_col {
         padding: 10px !important;
     }
-    /* Improve dashboard tiles layout on small screens */
-    .row.tile_count {
-        margin-right: 0 !important;
+    /* Show FULL sidebar when toggled on mobile - same as desktop nav-md */
+    body.nav-sm .container.body .col-md-3.left_col {
+        display: block !important;
+        width: 230px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 9999;
+        height: 100%;
+        overflow-y: auto;
+        background: #2A3F54;
+        pointer-events: auto;
+    }
+    /* Ensure sidebar content and links are clickable */
+    body.nav-sm .left_col * {
+        pointer-events: auto;
+    }
+    body.nav-sm .nav.side-menu li a {
+        display: block;
+        pointer-events: auto;
+        position: relative;
+        z-index: 10000;
+    }
+    body.nav-sm .container.body .right_col {
+        margin-left: 0;
+        width: 100%;
+    }
+    body.nav-sm .container.body .top_nav {
+        margin-left: 0;
+        width: 100%;
+    }
+    /* Overlay to close sidebar when clicking outside */
+    body.nav-sm .container.body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 230px;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 9998;
+        pointer-events: auto;
     }
 }
 

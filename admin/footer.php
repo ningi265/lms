@@ -26,6 +26,19 @@
     <!-- icheck -->
     <script src="js/icheck/icheck.min.js"></script>
     <script src="js/custom.js"></script>
+    <!-- Sidebar toggle script -->
+    <script>
+    $(document).ready(function() {
+        // Close sidebar when clicking on overlay (outside sidebar) on mobile
+        $(document).on('click', function(e) {
+            if ($(window).width() <= 991 && $('body').hasClass('nav-sm')) {
+                if (!$(e.target).closest('.left_col').length && !$(e.target).closest('#menu_toggle').length) {
+                    $('body').removeClass('nav-sm').addClass('nav-md');
+                }
+            }
+        });
+    });
+    </script>
     <!-- daterangepicker -->
     <script type="text/javascript" src="js/moment.min2.js"></script>
     <script type="text/javascript" src="js/datepicker/daterangepicker.js"></script>
@@ -241,51 +254,6 @@
         });
     </script>
     <!-- /input mask -->
-    <!-- Sidebar initialization for responsive behavior -->
-    <script>
-        $(function () {
-            var MOBILE_BREAKPOINT = 991;
-
-            // Initialize sidebar state based on screen size
-            function initSidebarState() {
-                var isMobile = $(window).width() <= MOBILE_BREAKPOINT;
-                
-                if (isMobile) {
-                    $('body').removeClass('menu-open');
-                    $('.left_col').hide();
-                } else {
-                    if (!$('body').hasClass('nav-md') && !$('body').hasClass('nav-sm')) {
-                        $('body').addClass('nav-md');
-                    }
-                    $('.left_col').show().removeAttr('style');
-                }
-            }
-
-            // Initialize on page load
-            initSidebarState();
-
-            // Reinitialize on window resize (debounced)
-            var resizeTimer;
-            $(window).on('resize', function() {
-                clearTimeout(resizeTimer);
-                resizeTimer = setTimeout(function() {
-                    initSidebarState();
-                }, 250);
-            });
-
-            // Close mobile menu when clicking outside
-            $(document).on('click', function(e) {
-                var isMobile = $(window).width() <= MOBILE_BREAKPOINT;
-                if (isMobile && $('body').hasClass('menu-open')) {
-                    if (!$(e.target).closest('.left_col').length && !$(e.target).closest('#menu_toggle').length) {
-                        $('body').removeClass('menu-open');
-                        $('.left_col').hide();
-                    }
-                }
-            });
-        });
-    </script>
-
     <!-- ion_range -->
     <script>
         $(function () {

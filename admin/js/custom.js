@@ -9,72 +9,29 @@ $(function () {
     $('#sidebar-menu li ul').slideUp();
     $('#sidebar-menu li').removeClass('active');
 
-    $('#sidebar-menu li').click(function () {
-        if ($(this).is('.active')) {
-            $(this).removeClass('active');
-            $('ul', this).slideUp();
-            $(this).removeClass('nv');
-            $(this).addClass('vn');
-        } else {
-            $('#sidebar-menu li ul').slideUp();
-            $(this).removeClass('vn');
-            $(this).addClass('nv');
-            $('ul', this).slideDown();
-            $('#sidebar-menu li').removeClass('active');
-            $(this).addClass('active');
-        }
-    });
-
-    $('#menu_toggle').click(function (e) {
-        e.preventDefault();
-        console.log('Menu toggle clicked');
-        var MOBILE_BREAKPOINT = 991;
-        var isMobile = $(window).width() <= MOBILE_BREAKPOINT;
-        console.log('Is mobile:', isMobile, 'Window width:', $(window).width());
-        
-        if (isMobile) {
-            // Mobile: toggle overlay menu
-            $('body').toggleClass('menu-open');
-            console.log('Mobile menu toggled, menu-open:', $('body').hasClass('menu-open'));
-            if ($('body').hasClass('menu-open')) {
-                $('.left_col').show().css({
-                    'display': 'block',
-                    'position': 'fixed',
-                    'top': '50px',
-                    'left': '0',
-                    'bottom': '0',
-                    'width': '230px',
-                    'z-index': '2000'
-                });
-            } else {
-                $('.left_col').hide();
-            }
-        } else {
-            // Desktop: toggle between nav-md and nav-sm
-            console.log('Desktop mode - Current body classes:', $('body').attr('class'));
-            if ($('body').hasClass('nav-md')) {
-                console.log('Collapsing to nav-sm');
-                $('body').removeClass('nav-md').addClass('nav-sm');
-                $('.col-md-3.left_col').removeClass('scroll-view').removeAttr('style');
-                $('.sidebar-footer').hide();
-
-                if ($('#sidebar-menu li').hasClass('active')) {
-                    $('#sidebar-menu li.active').addClass('active-sm').removeClass('active');
-                }
-            } else {
-                console.log('Expanding to nav-md');
-                $('body').removeClass('nav-sm').addClass('nav-md');
-                $('.col-md-3.left_col').addClass('scroll-view');
-                $('.sidebar-footer').show();
-
-                if ($('#sidebar-menu li').hasClass('active-sm')) {
-                    $('#sidebar-menu li.active-sm').addClass('active').removeClass('active-sm');
+    // Handle submenu toggle - only for items with submenus
+    $('#sidebar-menu li').on('click', function (e) {
+        // Only handle submenu toggle if this li has a child ul
+        if ($(this).children('ul').length > 0) {
+            // Only toggle if clicking on the li itself, not on a direct link
+            if (!$(e.target).is('a[href]') || $(e.target).attr('href') === '#') {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                if ($(this).is('.active')) {
+                    $(this).removeClass('active nv').addClass('vn');
+                    $(this).children('ul').slideUp();
+                } else {
+                    $('#sidebar-menu li ul').slideUp();
+                    $('#sidebar-menu li').removeClass('active');
+                    $(this).removeClass('vn').addClass('nv active');
+                    $(this).children('ul').slideDown();
                 }
             }
-            console.log('After toggle - Body classes:', $('body').attr('class'));
-            console.log('Left col classes:', $('.left_col').attr('class'));
         }
+        // For items without submenus, do nothing - let the link navigate naturally
     });
+    // Note: #menu_toggle handler is in footer.php
 });
 
 /* Sidebar Menu active class */
@@ -342,61 +299,3 @@ $(document).ready(function () {
 
 });
 /** ******  /scrollview  *********************** **/
-
-// custom.js - Sidebar toggle functionality
-$(document).ready(function() {
-    // Sidebar toggle functionality
-    $('#menu_toggle').click(function() {
-        const $body = $('body');
-        const $mainContainer = $('.main_container');
-        
-        if ($body.hasClass('nav-sm')) {
-            // If sidebar is collapsed, expand it
-            $body.removeClass('nav-sm');
-            $mainContainer.removeClass('nav-sm');
-            // Store the state in localStorage
-            localStorage.setItem('sidebarState', 'expanded');
-        } else {
-            // If sidebar is expanded, collapse it
-            $body.addClass('nav-sm');
-            $mainContainer.addClass('nav-sm');
-            // Store the state in localStorage
-            localStorage.setItem('sidebarState', 'collapsed');
-        }
-    });
-    
-    // Check and apply saved sidebar state on page load
-    function applySavedSidebarState() {
-        const savedState = localStorage.getItem('sidebarState');
-        const $body = $('body');
-        const $mainContainer = $('.main_container');
-        
-        if (savedState === 'collapsed') {
-            $body.addClass('nav-sm');
-            $mainContainer.addClass('nav-sm');
-        } else {
-            $body.removeClass('nav-sm');
-            $mainContainer.removeClass('nav-sm');
-        }
-    }
-    
-    // Apply saved state when page loads
-    applySavedSidebarState();
-    
-    // Also handle window resize for responsive behavior
-    $(window).resize(function() {
-        if ($(window).width() < 768) {
-            $('body').addClass('nav-sm');
-            $('.main_container').addClass('nav-sm');
-        } else {
-            // On larger screens, apply saved state
-            applySavedSidebarState();
-        }
-    });
-    
-    // Initialize on page load for responsive
-    if ($(window).width() < 768) {
-        $('body').addClass('nav-sm');
-        $('.main_container').addClass('nav-sm');
-    }
-});
